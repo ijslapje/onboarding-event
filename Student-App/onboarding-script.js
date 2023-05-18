@@ -1,19 +1,23 @@
 // Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function () {
-    // Get references to the HTML elements
-    const teamSelect = document.getElementById('teamSelect');
-    const continueButton = document.getElementById('continueButton');
-  
-    // Add event listener to the Continue button
+  // Add event listener to the continue button
+  const continueButton = document.getElementById('continueButton');
+  if (continueButton) {
     continueButton.addEventListener('click', function () {
-      // Get the chosen team
-      const chosenTeam = teamSelect.value;
-  
-      // Save the chosen team to local storage
-      localStorage.setItem('chosenTeam', chosenTeam);
-  
-      // Redirect to the waiting.html page
-      window.location.href = 'waiting.html';
+      const teamDropdown = document.getElementById('teamDropdown');
+      if (teamDropdown) {
+        const chosenTeam = teamDropdown.value;
+        
+        // Store the chosen team in localStorage
+        localStorage.setItem('chosenTeam', chosenTeam);
+        
+        // Redirect to waiting.html
+        window.location.href = `waiting.html?team=${encodeURIComponent(chosenTeam)}`;
+      } else {
+        console.error('Team dropdown element not found.');
+      }
     });
-  });
-  
+  } else {
+    console.error('Continue button element not found.');
+  }
+});

@@ -12,6 +12,8 @@ function sendDataAndConfirm(teamCount) {
       const locationData = data;
       const result = sendData(teamCount, locationData);
 
+      // Store the result in localStorage
+      localStorage.setItem('teacherAppData', JSON.stringify(result));
       // Display a confirmation message with the data
       console.log(result);
     })
