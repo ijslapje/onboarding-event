@@ -41,31 +41,46 @@ body {
   
  /* waiting.html styles */
 
-.waiting-container {
-    background-color: #222222;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .waiting-message {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  /* Add loading animation */
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #ffffff;
-    border-top-color: #777777;
-    border-radius: 50%;
-    animation: spin 1s infinite linear;
-  }
+ .waiting-container {
+  background-color: #222222;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.waiting-message {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.continue-button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ffffff;
+  border-top-color: #777777;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+.hidden {
+  display: none;
+}
   
   /* game.html styles */
   

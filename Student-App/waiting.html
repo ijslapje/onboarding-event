@@ -6,9 +6,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>Waiting for the Game to Start</h1>
-    <div class="loading-spinner"></div>
+    <div id="loadingContainer" class="waiting-container">
+      <h1 class="waiting-message">Waiting for the Game to Start</h1>
+      <div class="loading-spinner"></div>
+    </div>
+    <div id="continueContainer" class="hidden waiting-container">
+      <h1 class="waiting-message">Game Started!</h1>
+      <button id="continueButton" class="continue-button">Continue</button>
+    </div>
   </div>
-  <script src="event-script.js"></script>
+  <script type="module" src="event-script.js"></script>
 </body>
 </html>
