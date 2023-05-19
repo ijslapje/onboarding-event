@@ -5,6 +5,16 @@ const cycleCount = 6; // Number of cycles to repeat
 let startTime = localStorage.getItem('startTime');
 const locationOrder = JSON.parse(localStorage.getItem('selectedTeamData')).locations;
 
+// Get the DOM elements for the location name, assignment, and tips
+const locationNameElement = document.getElementById('locationName');
+const assignmentElement = document.getElementById('assignment');
+const tipsElement = document.getElementById('tips');
+
+// Set the initial values from locationOrder[0]
+locationNameElement.textContent = locationOrder[0].Name;
+assignmentElement.textContent = locationOrder[0].Assignment;
+tipsElement.textContent = locationOrder[0].Tips;
+
 // Check if the start time is already set in localStorage
 if (!startTime) {
   // If the start time is not set, use the current time as the start time
@@ -88,6 +98,14 @@ function handleCountdown() {
         console.log('End of cycles');
         return;
       }
+
+      // Update location name, assignment, and tips based on the current cycle
+      const locationIndex = currentCycle - 1;
+      const currentLocation = locationOrder[locationIndex];
+
+      locationNameElement.textContent = currentLocation.Name;
+      assignmentElement.textContent = currentLocation.Assignment;
+      tipsElement.textContent = currentLocation.Tips;
     }
 
     // Set the remaining time for the next duration
