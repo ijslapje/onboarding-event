@@ -58,4 +58,17 @@ body {
       background-position: 0% 50%;
     }
   }
+
+ #gallery {
+    display: inline-block;
+    margin: 10px;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  #gallery img {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* Adjust the maximum height as needed */
+  }
   

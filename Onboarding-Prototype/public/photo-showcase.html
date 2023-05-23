@@ -5,12 +5,29 @@
   <link rel="stylesheet" href="css/adminStyle.css">
 </head>
 <body>
-    <h1>Image Gallery</h1>
+  <h1>Image Gallery</h1>
 
-    <div class="gallery">
-      <!-- Dynamically generated gallery items will be added here -->
-    </div>
-  
-  <script src="js/photo-showcase.js"></script>
+  <div id="gallery"></div>
+
+  <script>
+    fetchImages();
+
+    async function fetchImages() {
+      const response = await fetch('/images');
+      const imageNames = await response.json();
+
+      displayImages(imageNames);
+    }
+
+    function displayImages(imageNames) {
+      const galleryElement = document.getElementById('gallery');
+
+      imageNames.forEach(imageName => {
+        const imageElement = document.createElement('img');
+        imageElement.src = `/images/${imageName}`;
+        galleryElement.appendChild(imageElement);
+      });
+    }
+  </script>
 </body>
 </html>
