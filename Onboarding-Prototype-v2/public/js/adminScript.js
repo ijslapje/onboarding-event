@@ -19,6 +19,9 @@ document.getElementById('confirmButton').addEventListener('click', () => {
     .then(response => {
       if (response.ok) {
         console.log('Start time sent successfully');
+        
+        // Redirect to file-showcase.html
+        window.location.href = 'file-showcase.html';
       } else {
         console.error('Failed to send start time');
       }
@@ -26,6 +29,4 @@ document.getElementById('confirmButton').addEventListener('click', () => {
     .catch(error => {
       console.error('Error:', error);
     });
-
-  console.log(startTime);
 });

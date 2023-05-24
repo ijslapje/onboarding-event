@@ -1,0 +1,151 @@
+/* Common styles */
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* onboarding.html styles */
+  
+  .onboarding-container {
+    background-color: #333333;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .team-card {
+    background-color: #555555;
+    color: #ffffff;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+ /* waiting.html styles */
+
+ .waiting-container {
+  background-color: #222222;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.waiting-message {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.continue-button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ffffff;
+  border-top-color: #777777;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+.hidden {
+  display: none;
+}
+  
+  /* game.html styles */
+  
+  .game-container {
+    background-color: #444444;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .timer {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .location-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .location-progress .circle {
+    width: 30px;
+    height: 30px;
+    background-color: #666666;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .location-name {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .upload-button {
+    background-color: #777777;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .timeline {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .timeline-item.active {
+    background-color: red;
+  }
+  
+  

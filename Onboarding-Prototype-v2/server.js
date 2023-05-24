@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -32,8 +33,9 @@ app.post('/adminScript', (req, res) => {
 });
 
 app.get('/game-load', (req, res) => {
-  const teamData = bindTeamData(chosenTeam);
-  res.json({ teamData });
+  const teamData = teamOrder(chosenTeam);
+  console.log(chosenTeam);
+  res.json(teamData);
 });
 
 app.get('/game-play', (req, res) => {
@@ -46,26 +48,74 @@ app.post('/game-play', upload.single('file'), (req, res) => {
   res.sendStatus(200);
 });
 
-function bindTeamData(chosenTeam) {
-    const locationData = require('./locationData.json');
-    const teams = {
-      1: locationData.Locations.slice(0, 6),
-      2: locationData.Locations.slice(1, 7).concat(locationData.Locations[0]),
-      3: locationData.Locations.slice(2, 7).concat(locationData.Locations.slice(0, 2)),
-      4: locationData.Locations.slice(3, 7).concat(locationData.Locations.slice(0, 3)),
-      5: locationData.Locations.slice(4, 7).concat(locationData.Locations.slice(0, 4)),
-      6: locationData.Locations.slice(5, 7).concat(locationData.Locations.slice(0, 5)),
-    };
-    return teams[chosenTeam];
-}
+app.get('/file-showcase', (req, res) => {
+  fs.readdir(path.join(__dirname, 'files'), (err, files) => {
+    if (err) {
+      console.error('Error:', err);
+      res.sendStatus(500);
+    } else {
+      const fileData = files.map((file) => {
+        const filePath = path.join('files', file);
+        const fileType = getFileType(file);
+        return { filename: file, type: fileType };
+      });
+      res.json({ files: fileData });
+    }
+  });
+});
 
-// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Default route, serve landing.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
+
+function teamOrder(chosenTeam) {
+  const locationData = require('./locationData.json');
+  const locations = locationData.Locations[0];
+
+  console.log('chosenTeam:', chosenTeam);
+  console.log('locations:', locations);
+
+  const teams = {
+    team1: [0, 1, 2, 3, 4, 5],
+    team2: [1, 2, 3, 4, 5, 0],
+    team3: [2, 3, 4, 5, 0, 1],
+    team4: [3, 4, 5, 0, 1, 2],
+    team5: [4, 5, 0, 1, 2, 3],
+    team6: [5, 0, 1, 2, 3, 4],
+  };
+
+  const teamOrder = teams[chosenTeam];
+
+  console.log('teamOrder:', teamOrder);
+
+  if (!teamOrder) {
+    throw new Error('Invalid chosen team');
+  }
+
+  const teamData = {};
+  for (let i = 0; i < teamOrder.length; i++) {
+    const locationIndex = teamOrder[i];
+    const locationName = Object.keys(locations)[locationIndex];
+    teamData[locationName] = locations[locationName];
+  }
+
+  return teamData;
+}
+
+function getFileType(filename) {
+  const extension = path.extname(filename).toLowerCase();
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv'];
+  if (imageExtensions.includes(extension)) {
+    return 'image';
+  } else if (videoExtensions.includes(extension)) {
+    return 'video';
+  } else {
+    return 'unknown';
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

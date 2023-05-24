@@ -1,21 +1,33 @@
-// Get photo/videos from 'files' and show them on the HTML page
-fetch('/files')
+// Get the gallery container element
+const galleryContainer = document.getElementById('gallery');
+
+fetch('/file-showcase')
   .then(response => response.json())
   .then(data => {
     const files = data.files;
     for (const file of files) {
       const url = `/files/${file.filename}`;
 
-      if (file.type.startsWith('image')) {
-        const imgElement = document.createElement('img');
-        imgElement.src = url;
-        document.body.appendChild(imgElement);
-      } else if (file.type.startsWith('video')) {
-        const videoElement = document.createElement('video');
-        videoElement.src = url;
-        videoElement.controls = true;
-        document.body.appendChild(videoElement);
+      // Create a card element for each file
+      const cardElement = document.createElement('div');
+      cardElement.classList.add('card');
+
+      // Create an image or video element based on the file type
+      let mediaElement;
+      if (file.type === 'image') {
+        mediaElement = document.createElement('img');
+      } else if (file.type === 'video') {
+        mediaElement = document.createElement('video');
+        mediaElement.controls = true;
       }
+
+      mediaElement.src = `/${url}`; // Update the URL
+
+      // Append the media element to the card element
+      cardElement.appendChild(mediaElement);
+
+      // Append the card element to the gallery container
+      galleryContainer.appendChild(cardElement);
     }
   })
   .catch(error => {
