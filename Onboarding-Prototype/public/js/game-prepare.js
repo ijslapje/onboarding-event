@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const teamDropdown = document.getElementById('teamDropdown');
         if (teamDropdown) {
           const chosenTeam = teamDropdown.value;
-          
           // Store the chosen team in localStorage
           localStorage.setItem('chosenTeam', chosenTeam);
           

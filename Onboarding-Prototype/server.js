@@ -69,15 +69,19 @@ app.get('/team-select', (req, res) => {
 
 app.get('/start-game', (req, res) => {
   const chosenTeam = req.query.team;
-  const teamData = locationData.Locaties[0][chosenTeam];
+  const teamNumber = parseInt(chosenTeam.replace('team', '')) - 1; // Extract the team number and subtract 1
+  console.log(teamNumber)
+  const teamData = locationData.Locaties[teamNumber];
+  console.log(teamData)
   const startTime = new Date().toISOString();
 
   res.json({
-    chosenTeam: chosenTeam,
+    chosenTeam: teamNumber,
     startTime: startTime,
     teamData: teamData
   });
 });
+
 
 // Start the server
 app.listen(port, () => {

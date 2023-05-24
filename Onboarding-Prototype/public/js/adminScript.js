@@ -25,7 +25,7 @@ document.getElementById("confirmButton").addEventListener("click", function () {
     let startTime;
   
     // Get the locations data from the JSON file
-    const locations = locationData.Locaties[0];
+    const locations = locationData.Locaties;
   
     // Array to store the teams
     const teams = [];

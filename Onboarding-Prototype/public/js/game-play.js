@@ -3,7 +3,7 @@ const cycleCount = 6; // Number of cycles to repeat
 
 // Retrieve the start time and location order from localStorage
 let startTime = localStorage.getItem('formattedStartTime');
-const locationOrder = JSON.parse(localStorage.getItem('selectedTeamData')).locations;
+const locationOrder = JSON.parse(localStorage.getItem('teamData')).Locaties;
 
 // Get the DOM elements for the location name, assignment, and tips
 const locationNameElement = document.getElementById('locationName');
