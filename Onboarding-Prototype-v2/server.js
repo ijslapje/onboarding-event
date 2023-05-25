@@ -1,8 +1,10 @@
-const express = require('express');
-const multer = require('multer');
-const fileUpload = require('express-fileupload');
-const path = require('path');
-const fs = require('fs');
+// Required npm packages: express, multer, express-fileupload
+
+const express = require("express");
+const multer = require("multer");
+const fileUpload = require("express-fileupload");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const port = 3000;
@@ -10,72 +12,121 @@ const port = 3000;
 app.use(express.json());
 app.use(fileUpload());
 
-let chosenTeam = '';
-let startTime = '';
+let chosenTeam = "";
+let startTime = "";
 
 // Serve static files from the 'files' directory
-app.use('/files', express.static(path.join(__dirname, 'files')));
+app.use("/files", express.static(path.join(__dirname, "files")));
 
-
+/**
+ * Configure multer storage options.
+ * The destination folder is './files'.
+ * The filename is a timestamp appended with the original file name.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} file - Uploaded file object.
+ * @param {function} cb - Callback function.
+ */
 const storage = multer.diskStorage({
-  destination: './files',
+  destination: "./files",
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
 
 const upload = multer({ storage: storage });
 
-app.post('/upload-image', (req, res) => {
+/**
+ * Handles the upload of an image file.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.post("/upload-image", (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
+    return res.status(400).send("No files were uploaded.");
   }
 
   const file = req.files.image;
 
-  file.mv(path.join(__dirname, 'files', file.name), (err) => {
+  file.mv(path.join(__dirname, "files", file.name), (err) => {
     if (err) {
-      console.error('Error:', err);
-      return res.status(500).send('Error uploading file.');
+      console.error("Error:", err);
+      return res.status(500).send("Error uploading file.");
     }
 
-    res.send('File uploaded successfully.');
+    res.send("File uploaded successfully.");
   });
 });
 
-app.post('/game-prepare', (req, res) => {
+/**
+ * Sets the chosen team based on the request body.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.post("/game-prepare", (req, res) => {
   chosenTeam = req.body.chosenTeam;
   res.sendStatus(200);
 });
 
-app.post('/adminScript', (req, res) => {
+/**
+ * Sets the start time based on the request body.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.post("/adminScript", (req, res) => {
   startTime = req.body.startTime;
   res.sendStatus(200);
 });
 
-app.get('/game-load', (req, res) => {
+/**
+ * Retrieves the team data based on the chosen team.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.get("/game-load", (req, res) => {
   const teamData = teamOrder(chosenTeam);
   console.log(chosenTeam);
   res.json(teamData);
 });
 
-app.get('/game-play', (req, res) => {
+/**
+ * Retrieves the start time.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.get("/game-play", (req, res) => {
   res.json({ startTime });
 });
 
-app.post('/game-play', upload.single('file'), (req, res) => {
-  // Save the file in '/files' folder
+/**
+ * Handles the upload of a file for the game play.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.post("/game-play", upload.single("file"), (req, res) => {
   const file = req.file;
   res.sendStatus(200);
 });
 
-app.get('/file-showcase', (req, res) => {
-  const filesDirectory = path.join(__dirname, 'files');
+/**
+ * Retrieves the file data from the 'files' directory.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.get("/file-showcase", (req, res) => {
+  const filesDirectory = path.join(__dirname, "files");
 
   fs.readdir(filesDirectory, (err, filenames) => {
     if (err) {
-      console.error('Error reading files:', err);
-      res.status(500).json({ error: 'Error reading files' });
+      console.error("Error reading files:", err);
+      res.status(500).json({ error: "Error reading files" });
       return;
     }
 
@@ -89,18 +140,32 @@ app.get('/file-showcase', (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+/**
+ * Sends the landing page as the response.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "landing.html"));
 });
 
+/**
+ * Orders the team locations based on the chosen team.
+ *
+ * @param {string} chosenTeam - The chosen team.
+ * @returns {Object} - The ordered team data.
+ * @throws {Error} - If the chosen team is invalid.
+ */
 function teamOrder(chosenTeam) {
-  const locationData = require('./locationData.json');
+  const locationData = require("./locationData.json");
   const locations = locationData.Locations[0];
 
-  console.log('chosenTeam:', chosenTeam);
-  console.log('locations:', locations);
+  console.log("chosenTeam:", chosenTeam);
+  console.log("locations:", locations);
 
   const teams = {
     team1: [0, 1, 2, 3, 4, 5],
@@ -113,10 +178,10 @@ function teamOrder(chosenTeam) {
 
   const teamOrder = teams[chosenTeam];
 
-  console.log('teamOrder:', teamOrder);
+  console.log("teamOrder:", teamOrder);
 
   if (!teamOrder) {
-    throw new Error('Invalid chosen team');
+    throw new Error("Invalid chosen team");
   }
 
   const teamData = {};
@@ -129,19 +194,26 @@ function teamOrder(chosenTeam) {
   return teamData;
 }
 
+/**
+ * Retrieves the file type based on the file extension.
+ *
+ * @param {string} filename - The name of the file.
+ * @returns {string} - The file type ('image', 'video', or 'unknown').
+ */
 function getFileType(filename) {
   const extension = path.extname(filename).toLowerCase();
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-  const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv'];
+  const imageExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+  const videoExtensions = [".mp4", ".mov", ".avi", ".mkv"];
   if (imageExtensions.includes(extension)) {
-    return 'image';
+    return "image";
   } else if (videoExtensions.includes(extension)) {
-    return 'video';
+    return "video";
   } else {
-    return 'unknown';
+    return "unknown";
   }
 }
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

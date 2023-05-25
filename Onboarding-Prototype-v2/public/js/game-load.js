@@ -1,13 +1,37 @@
-// Wait for the DOM to load
+/**
+ * Function to be executed when the DOM content is loaded.
+ * Fetches the game data from '/game-load' endpoint and handles the loading and continuation of the game.
+ */
 document.addEventListener('DOMContentLoaded', function () {
+  /**
+   * Fetches the game data from the '/game-load' endpoint.
+   * Handles the loading and continuation of the game.
+   */
   fetch('/game-load')
     .then(response => response.json())
     .then(data => {
+      /**
+       * Personal team data received from the '/game-load' endpoint.
+       * @type {object}
+       */
       const personalTeamData = data;
       console.log(personalTeamData);
 
+      /**
+       * Function to be executed after a delay of 2000 milliseconds.
+       * Handles the loading and continuation elements on the page.
+       */
       setTimeout(function () {
+        /**
+         * Element representing the loading container.
+         * @type {HTMLElement}
+         */
         const loadingContainer = document.getElementById('loadingContainer');
+
+        /**
+         * Element representing the continue container.
+         * @type {HTMLElement}
+         */
         const continueContainer = document.getElementById('continueContainer');
 
         loadingContainer.classList.add('hidden');

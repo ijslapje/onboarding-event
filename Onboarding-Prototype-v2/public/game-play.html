@@ -25,41 +25,7 @@
   </div>
   <script type="module" src="js/game-play.js"></script>
   <script>
-    function uploadImage() {
-      const file = this.files[0];
 
-      if (file) {
-        const uploadButton = document.getElementById('uploadButton');
-
-        const formData = new FormData();
-        formData.append('image', file);
-
-        const request = new XMLHttpRequest();
-        request.open('POST', '/upload-image');
-        request.onreadystatechange = function() {
-          if (request.readyState === 4) {
-            if (request.status === 200) {
-              uploadButton.textContent = 'Uploaded!';
-              uploadButton.style.backgroundColor = 'green';
-
-              setTimeout(function() {
-                uploadButton.textContent = 'Upload';
-                uploadButton.style.backgroundColor = '#777777';
-              }, 2000);
-
-              // Do any additional processing or UI updates here
-            } else {
-              // Handle the upload failure or display an error message
-            }
-          }
-        };
-
-        request.send(formData);
-      }
-    }
-
-    // Add event listener to the file input to trigger the uploadImage function when a file is selected
-    document.getElementById('imageInput').addEventListener('change', uploadImage);
   </script>
 </body>
 </html>
