@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs');
 
@@ -7,20 +8,40 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(fileUpload());
 
 let chosenTeam = '';
 let startTime = '';
 
+// Serve static files from the 'files' directory
+app.use('/files', express.static(path.join(__dirname, 'files')));
+
+
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, 'files'),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const extension = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+  destination: './files',
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
+
+app.post('/upload-image', (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  const file = req.files.image;
+
+  file.mv(path.join(__dirname, 'files', file.name), (err) => {
+    if (err) {
+      console.error('Error:', err);
+      return res.status(500).send('Error uploading file.');
+    }
+
+    res.send('File uploaded successfully.');
+  });
+});
 
 app.post('/game-prepare', (req, res) => {
   chosenTeam = req.body.chosenTeam;
@@ -49,18 +70,22 @@ app.post('/game-play', upload.single('file'), (req, res) => {
 });
 
 app.get('/file-showcase', (req, res) => {
-  fs.readdir(path.join(__dirname, 'files'), (err, files) => {
+  const filesDirectory = path.join(__dirname, 'files');
+
+  fs.readdir(filesDirectory, (err, filenames) => {
     if (err) {
-      console.error('Error:', err);
-      res.sendStatus(500);
-    } else {
-      const fileData = files.map((file) => {
-        const filePath = path.join('files', file);
-        const fileType = getFileType(file);
-        return { filename: file, type: fileType };
-      });
-      res.json({ files: fileData });
+      console.error('Error reading files:', err);
+      res.status(500).json({ error: 'Error reading files' });
+      return;
     }
+
+    const fileData = filenames.map((filename) => {
+      const filePath = `/files/${filename}`;
+      const fileType = getFileType(filename);
+      return { filename, type: fileType, path: filePath };
+    });
+
+    res.json({ files: fileData });
   });
 });
 

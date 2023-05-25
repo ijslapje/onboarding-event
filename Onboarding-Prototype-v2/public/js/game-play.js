@@ -1,7 +1,7 @@
 let startTime = '';
 let teamData = {};
 let currentTeamIndex = 0;
-let countdownDuration = [5 *60,10 *60] 
+let countdownDuration = [5 * 60, 10 * 60];
 
 // Countdown function
 function startCountdown(duration, onFinish) {
@@ -46,25 +46,23 @@ function cycle() {
   const timelineItems = document.querySelectorAll('.timeline-item');
   let currentIndex = 0;
 
-// Function to update the active timeline item and team data
-function updateTimeline() {
-  // Remove the "active" class from all timeline items
-  timelineItems.forEach((item) => {
-    item.classList.remove('active');
-  });
+  // Function to update the active timeline item and team data
+  function updateTimeline() {
+    // Remove the "active" class from all timeline items
+    timelineItems.forEach((item) => {
+      item.classList.remove('active');
+    });
 
-  // Add the "active" class to the corresponding timeline item
-  const currentItem = timelineItems[currentIndex];
-  currentItem.classList.add('active');
-  console.log('Current Timeline Item:', currentItem.textContent);
+    // Add the "active" class to the corresponding timeline item
+    const currentItem = timelineItems[currentIndex];
+    currentItem.classList.add('active');
+    console.log('Current Timeline Item:', currentItem.textContent);
 
-  if(currentItem.textContent >1){
-    // Update team data
-  updateTeamData();
+    if (currentItem.textContent > 1) {
+      // Update team data
+      updateTeamData();
+    }
   }
-  
-}
-
 
   // Start the cycling process
   function startCycling() {
@@ -86,7 +84,7 @@ function updateTimeline() {
             console.log('End of cycles');
           }
         });
-      }, 2000);
+      });
     });
   }
 

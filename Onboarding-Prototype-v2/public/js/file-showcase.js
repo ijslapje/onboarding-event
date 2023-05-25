@@ -1,9 +1,12 @@
 // Get the gallery container element
 const galleryContainer = document.getElementById('gallery');
 
+console.log('Fetching files...');
+
 fetch('/file-showcase')
   .then(response => response.json())
   .then(data => {
+    console.log('Files received:', data);
     const files = data.files;
     for (const file of files) {
       const url = `/files/${file.filename}`;
@@ -21,7 +24,7 @@ fetch('/file-showcase')
         mediaElement.controls = true;
       }
 
-      mediaElement.src = `/${url}`; // Update the URL
+      mediaElement.src = url; // Update the URL
 
       // Append the media element to the card element
       cardElement.appendChild(mediaElement);

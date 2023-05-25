@@ -71,7 +71,7 @@ body {
     height: auto;
   }
   
-  #gallery img {
+  #gallery img,  #gallery video{
     width: 100%;
     height: auto;
     max-height: 200px; /* Adjust the maximum height as needed */
