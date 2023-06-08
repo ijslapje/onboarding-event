@@ -1,0 +1,33 @@
+
+# Onboarding Game - Leer Strijp TQ
+
+Taal van de opdrachten: Engels
+
+Max Spelers per game: 36
+
+Max Mensen per Team: 6
+
+
+
+## Hoe zet ik het op?
+De demo in dit bestand wordt op het moment op een Node server gedraaid. Voor het uiteindelijke product zou het op een online backend server draaien.
+
+Om het programma op te zetten doe je het volgende
+
+Open de Onboarding-Game folder in je code editor
+
+Installeer de volgende npm packages: express, multer, express-fileupload
+
+Speel de applicatie af door in de terminal het volgende in te typen: node server.js
+
+ga naar localhost:3000 om het te zien
+
+
+
+## Hoe wordt het gespeeld?
+
+Type in je cmd: ipconfig. Gebruik het IPv4 Address om op de telefoon op de website te komen.
+
+Verbind je telefoon aan hetzelfde wifi netwerk als waar de localhost draait
+
+Ga naar de website door de ip:3000. Met de telefoon selecteer je jou toegewezen team en begin!
